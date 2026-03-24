@@ -32,6 +32,7 @@ def signup_view(request):
         login(request, user)
         messages.success(request, 'Signup successful!')
         return redirect('index')
+    
     return render(request, 'authentication/register.html')
 
 def login_view(request):
@@ -62,3 +63,6 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out.')
     return redirect('index')
+
+def forgot_password_view(request):
+    return redirect(request, 'authentication/forgot-password.html')
