@@ -1,0 +1,64 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+bin/
+lib/
+include/
+pip-wheel-metadata/
+monenv/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+PKG-INFO
+
+# Environment variables and secrets
+.env
+.flaskenv
+local_settings.py  # A common pattern for local-only settings
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+
+### Django ###
+# SQLite database file
+db.sqlite3
+*.sqlite3
+
+# Log files
+*.log
+
+# Media and static files (often generated locally or in deployment)
+media/
+static_cdn/
+# staticfiles/ # Uncomment this if you collect static files into a local folder
+
+# Django translation files
+*.pot
+
+### Operating System Files ###
+# macOS
+.DS_Store
