@@ -1,8 +1,11 @@
 # student/views.py
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+=======
+>>>>>>> origin/main
 from .models import Student, Parent
 from django.contrib import messages
 
