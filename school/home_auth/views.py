@@ -1,6 +1,11 @@
 # home_auth/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+<<<<<<< HEAD
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+=======
+>>>>>>> origin/main
 from django.contrib import messages
 from .models import CustomUser
 

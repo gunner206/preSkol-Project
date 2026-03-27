@@ -41,6 +41,12 @@ INSTALLED_APPS = [
     'faculty',
     'student',
     'home_auth',
+<<<<<<< HEAD
+    'teacher',
+    'department',
+    'subject',
+=======
+>>>>>>> origin/main
 ]
 
 MIDDLEWARE = [
