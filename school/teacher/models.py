@@ -1,6 +1,5 @@
 from django.db import models
 from home_auth.models import CustomUser
-
 # Create your models here.
 
 class Teacher(models.Model):
