@@ -5,7 +5,26 @@ from .models import Student, Parent
 from django.contrib import messages
 
 def student_list(request):
-    return render(request, 'students/students.html')
+    # i need to pass student_list to the frontend
+    student_list = []
+    if request.method == 'GET':
+        students = Student.objects.all()
+        for student in students:
+            current_student = {}
+            current_student.first_name = student.first_name
+            current_student.last_name = student.last_name
+            current_student.student_id = student.student_id
+            current_student.gender = student.gender
+            current_student.date_of_birth = student.student_id
+            current_student.student_class = student.student_class
+            current_student.joining_date = student.joining_date
+            current_student.mobile_number = student.mobile_number
+            current_student.admission_number = student.admission_number
+            current_student.section = student.section
+            current_student.student_image = student.student_image
+            student_list.append(current_student)
+
+    return render(request, 'students/students.html', {'student_list' : student_list})
 
 def add_student(request):
     if request.method == 'POST':

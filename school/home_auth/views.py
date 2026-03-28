@@ -27,7 +27,7 @@ def signup_view(request):
             user.is_teacher = True
         elif role == 'admin':
             user.is_admin = True
-            
+        
         user.save()
         login(request, user)
         messages.success(request, 'Signup successful!')
