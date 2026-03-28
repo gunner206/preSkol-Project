@@ -21,11 +21,8 @@ class CustomUser(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False) 
-<<<<<<< HEAD
     def __str__(self):
         return self.username
-=======
->>>>>>> origin/main
 
     # Set related_name to None to prevent reverse relationship creation
     groups = models.ManyToManyField(
