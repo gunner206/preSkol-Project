@@ -18,11 +18,9 @@ class CustomUser(AbstractUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     
        # Fields for user roles
-    is_student = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False) 
-    def __str__(self):
-        return self.username
 
     # Set related_name to None to prevent reverse relationship creation
     groups = models.ManyToManyField(
