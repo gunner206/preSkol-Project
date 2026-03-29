@@ -34,3 +34,21 @@ def add_subject(request):
     teachers = Teacher.objects.all()
     return render(request, 'subjects/add_subject.html', {'departments': departments, 'teachers': teachers})
 
+@login_required
+def edit_subject(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    if request.method == 'POST':
+        subject.name = request.POST.get('name')
+        department_id = request.POST.get('department')
+        teacher_id = request.POST.get('teacher')
+        subject.description = request.POST.get('description')
+
+        subject.department = Department.objects.get(id=department_id) if department_id else None
+        subject.teacher = Teacher.objects.get(id=teacher_id) if teacher_id else None
+
+        subject.save()
+        return redirect('subject_list')
+    
+    departments = Department.objects.all()
+    teachers = Teacher.objects.all()
+    return render(request, 'subjects/edit_subject.html', {'subject': subject, 'departments': departments, 'teachers': teachers})
