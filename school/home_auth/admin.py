@@ -10,7 +10,7 @@ class CustomUserAdmin(DefaultUserAdmin):
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),  # Personal details
         ('Roles', {'fields': ('is_student', 'is_teacher', 'is_admin')}),  # Role fields
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_authorized',  # Add is_authorized here
-                                    'groups', 'user_permissions')}),  # Admin permissions
+        'groups', 'user_permissions')}),  # Admin permissions
     )
 
     # Customize fields in the user creation form (when creating a new user)
