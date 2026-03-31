@@ -19,8 +19,7 @@ def add_teacher(request):
         department = Department.objects.get(id=department_id) if department_id else None
         
         user = CustomUser.objects.create_user(
-            username=request.POST.get('teacher_id'),
-            password=CustomUser.objects.make_random_password(),
+            username=request.POST.get('id') or request.POST.get('username'),
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
             is_teacher=True
@@ -31,7 +30,6 @@ def add_teacher(request):
             department=department,
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
-            teacher_id=request.POST.get('teacher_id'),
             gender=request.POST.get('gender'),
             date_of_birth=request.POST.get('date_of_birth'),
             mobile_number=request.POST.get('mobile_number'),
