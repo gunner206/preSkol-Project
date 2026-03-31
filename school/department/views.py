@@ -15,17 +15,26 @@ def department_list(request):
 def add_department(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        head_of_department_id = request.POST.get('head_of_department')
         description = request.POST.get('description')
 
-        head_of_department = Teacher.objects.get(id=head_of_department_id) if head_of_department_id else None
 
         Department.objects.create(
             name=name,
-            head_of_department=head_of_department,
             description=description
         )
         return redirect('department_list')
     
     teachers = Teacher.objects.all()
     return render(request, 'departments/add_department.html', {'teachers': teachers})
+
+@login_required
+def edit_department(request, department_id):
+    department = Department.objects.get(id=department_id)
+    if request.method == 'POST':
+        department.name = request.POST.get('name')
+        department.description = request.POST.get('description')
+        department.save()
+        return redirect('department_list')
+    
+    teachers = Teacher.objects.all()
+    return render(request, 'departments/edit_department.html', {'department': department, 'teachers': teachers})

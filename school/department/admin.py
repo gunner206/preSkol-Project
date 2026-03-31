@@ -4,7 +4,6 @@ from .models import Department
 # Register your models here.
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'head_of_department')
+    list_display = ('name', )
     search_fields = ('name',)
-    list_filter = ('head_of_department',)
-
+    list_filter = ('name',)
