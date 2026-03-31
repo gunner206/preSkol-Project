@@ -8,12 +8,9 @@ from django.contrib import messages
 
 def student_list(request):
     # i need to pass student_list to the frontend
-    student_list = dict()
     if request.method == 'GET':
         students = Student.objects.all()
-        if students:
-            student_list = students.values()
-    return render(request, 'students/students.html', {'student_list': student_list})
+    return render(request, 'students/students.html', {'student_list': students})
 
 def add_student(request):
     if request.method == 'POST':
