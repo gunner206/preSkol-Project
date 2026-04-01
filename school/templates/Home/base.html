@@ -70,7 +70,13 @@
                         </div>
                         <div class="user-text">
                            {% comment %} <h6>{{user.username}}</h6> {% endcomment %}
+                           {% if user.is_admin %}
                            <p class="text-muted mb-0">Administrator</p>
+                           {% elif user.is_teacher %}
+                           <p class="text-muted mb-0">Teacher</p>
+                           {% elif user.is_student %}
+                           <p class="text-muted mb-0">Student</p>
+                           {% endif %}
                         </div>
                      </div>
                      <a class="dropdown-item" href="profile.html">My Profile</a>

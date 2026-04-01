@@ -40,6 +40,7 @@
                                         <td><h2>{{ department.name }}</h2></td>
                                         <td>{{ department.description|default:"No description" }}</td>
                                         <td class="text-right">
+                                            {% if user.is_teacher or user.is_admin %}
                                             <div class="actions">
                                                 <a href="{% url 'edit_department' department.id %}" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
@@ -50,6 +51,9 @@
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
+                                                {% else %}
+                                                <a> No actions </a>
+                                                {% endif %}
                                             </div>
                                         </td>
                                     </tr>
