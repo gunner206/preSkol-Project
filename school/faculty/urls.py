@@ -5,8 +5,9 @@ from .import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('dashboard/', views.dashboard, name='dashboard'),
+    # path('dashboard/', views.dashboard, name='dashboard'),
     path('holiday/', views.holiday, name='holiday'),
     path('exam/', views.exam, name='exam'),
+    path('exam/<int:exam_id>/marks/', views.add_marks, name='add_marks'),
     path('time_table/', views.time_table, name='time_table'),
 ]

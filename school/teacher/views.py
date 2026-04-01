@@ -53,7 +53,7 @@ def add_teacher(request):
 @login_required
 def teacher_view(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
-    return render(request, 'teachers/teachers.html', {'teacher': teacher})
+    return render(request, 'teachers/teacher-details.html', {'teacher': teacher})
 
 @login_required
 def teacher_edit(request, teacher_id):

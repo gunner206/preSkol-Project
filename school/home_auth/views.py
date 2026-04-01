@@ -39,27 +39,38 @@ def signup_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        user = authenticate(request, username=email,
-        password=password)
+        # Using .get() prevents dictionary crash if the form inputs are named differently
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        print(f"--- DEBUG: Attempting login for email: {email} ---")
+        
+        # Django uses 'username' keyword, which is mapped to email in your DB
+        user = authenticate(request, username=email, password=password)
+        
+        print(f"--- DEBUG: Authenticate returned: {user} ---")
+        
         if user is not None:
             login(request, user)
             messages.success(request, 'Login successful!')
+            
+            print(f"--- DEBUG: Roles -> Admin:{user.is_admin}, Teacher:{user.is_teacher}, Student:{user.is_student} ---")
 
-        # Redirection selon le rôle
-        if user.is_admin:
-            return redirect('admin_dashboard')
-        elif user.is_teacher:
-            return redirect('teacher_dashboard')
-        elif user.is_student:
-            return redirect('dashboard')
+            if user.is_admin:
+                return redirect('admin_dashboard')
+            elif user.is_teacher:
+                return redirect('teacher_dashboard')
+            elif user.is_student:
+                return redirect('student_dashboard') 
+            else:
+                messages.error(request, 'Invalid user role')
+                return redirect('index')
         else:
-            messages.error(request, 'Invalid user role')
-            return redirect('index')
-    else:
-        messages.error(request, 'Invalid credentials')
-        return render(request, 'authentication/login.html')
+            print("--- DEBUG: Authentication failed! Returning to login page. ---")
+            messages.error(request, 'Invalid credentials')
+            return render(request, 'authentication/login.html')
+            
+    return render(request, 'authentication/login.html')
     
 def logout_view(request):
     logout(request)
@@ -68,3 +79,27 @@ def logout_view(request):
 
 def forgot_password_view(request):
     return redirect(request, 'authentication/forgot-password.html')
+
+@login_required(login_url='login') # Redirects to login if not authenticated
+def admin_dashboard(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("You are not authorized to view this page.")
+    
+    # Pass specific data for the admin here
+    return render(request, 'Home/admin-dashboard.html')
+
+@login_required(login_url='login')
+def teacher_dashboard(request):
+    if not request.user.is_teacher:
+        return HttpResponseForbidden("You are not authorized to view this page.")
+        
+    # Pass specific data for the teacher here
+    return render(request, 'teachers/teacher-dashboard.html')
+
+@login_required(login_url='login')
+def student_dashboard(request):
+    if not request.user.is_student:
+        return HttpResponseForbidden("You are not authorized to view this page.")
+        
+    # Pass specific data for the student here
+    return render(request, 'students/student-dashboard.html')
