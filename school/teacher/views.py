@@ -4,6 +4,8 @@ from home_auth.models import CustomUser
 from .models import Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseForbidden
+
 
 @login_required
 def teacher_list(request):
@@ -12,6 +14,8 @@ def teacher_list(request):
 
 @login_required
 def add_teacher(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé.")
     if request.method == 'POST':
         department_id = request.POST.get('department')
         department = Department.objects.filter(id=department_id).first() if department_id else None
@@ -57,6 +61,8 @@ def teacher_view(request, teacher_id):
 
 @login_required
 def teacher_edit(request, teacher_id):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé.")
     teacher = get_object_or_404(Teacher, id=teacher_id)
     if request.method == 'POST':
         department_id = request.POST.get('department')

@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from .models import Holiday, Exam, TimeTable, Result
 from teacher.models import Teacher
 from student.models import Student
+from subject.models import Subject
 from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
@@ -92,7 +93,7 @@ def student_timetable(request):
             'title': f"{tt.subject}",
             'start': start_datetime,
             'end': end_datetime,
-            'className': 'bg-primary', # Couleur bleue pour les étudiants
+            'className': 'bg-primary', 
             'description': f"Professeur: {tt.teacher.first_name} {tt.teacher.last_name}"
         })
 
@@ -109,22 +110,18 @@ def add_marks(request, exam_id):
 
     exam = get_object_or_404(Exam, id=exam_id)
     
-    # Récupérer tous les étudiants inscrits dans la classe de cet examen
     students = Student.objects.filter(student_class=exam.exam_class)
 
-    # Récupérer les notes existantes pour pré-remplir le formulaire (si le prof modifie)
     existing_results = Result.objects.filter(exam=exam)
     results_dict = {res.student_id: res for res in existing_results}
 
-    # Traitement de la sauvegarde des notes
     if request.method == 'POST':
         for student in students:
             # Récupérer les données envoyées par les inputs dynamiques
             mark_value = request.POST.get(f"mark_{student.id}")
             comment_value = request.POST.get(f"comment_{student.id}")
 
-            if mark_value: # Si une note a été saisie
-                # Met à jour la note si elle existe, sinon la crée
+            if mark_value: 
                 Result.objects.update_or_create(
                     student=student,
                     exam=exam,
@@ -134,7 +131,6 @@ def add_marks(request, exam_id):
         messages.success(request, "Les notes ont été enregistrées avec succès !")
         return redirect('exam')
 
-    # Préparer les données pour le template (fusionner l'étudiant et sa note existante)
     student_data = []
     for student in students:
         res = results_dict.get(student.id)
@@ -149,3 +145,76 @@ def add_marks(request, exam_id):
         'student_data': student_data,
     }
     return render(request, 'management/add_marks.html', context)
+
+@login_required(login_url='login')
+def add_holiday(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé. Réservé aux administrateurs.")
+        
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        holiday_type = request.POST.get('holiday_type')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        description = request.POST.get('description')
+        
+        Holiday.objects.create(
+            name=name, holiday_type=holiday_type,
+            start_date=start_date, end_date=end_date, description=description
+        )
+        messages.success(request, "Jour férié ajouté avec succès !")
+        return redirect('admin_dashboard') 
+
+    return render(request, 'management/add_holiday.html')
+
+
+@login_required(login_url='login')
+def add_timetable(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé. Réservé aux administrateurs.")
+    
+    teachers = Teacher.objects.all()
+    
+    if request.method == 'POST':
+        class_name = request.POST.get('class_name')
+        subject = request.POST.get('subject')
+        teacher_id = request.POST.get('teacher_id')
+        date = request.POST.get('date')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        
+        teacher = get_object_or_404(Teacher, id=teacher_id)
+        
+        TimeTable.objects.create(
+            class_name=class_name, subject=subject, teacher=teacher,
+            date=date, start_time=start_time, end_time=end_time
+        )
+        messages.success(request, "Cours ajouté à l'emploi du temps avec succès !")
+        return redirect('admin_dashboard') 
+        
+    return render(request, 'management/add_timetable.html', {'teachers': teachers})
+
+@login_required(login_url='login')
+def add_exam(request):
+    if not request.user.is_teacher:
+        return HttpResponseForbidden("Accès refusé. Réservé aux enseignants.")
+    
+    teacher_profile = Teacher.objects.get(user=request.user)
+    my_subjects = Subject.objects.filter(teacher=teacher_profile)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        exam_class = request.POST.get('exam_class')
+        subject_name = request.POST.get('subject') 
+        exam_date = request.POST.get('exam_date')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        
+        Exam.objects.create(
+            name=name, exam_class=exam_class, subject=subject_name,
+            exam_date=exam_date, start_time=start_time, end_time=end_time
+        )
+        messages.success(request, "Examen programmé avec succès !")
+        return redirect('exam')
+        
+    return render(request, 'management/add_exam.html', {'my_subjects': my_subjects})

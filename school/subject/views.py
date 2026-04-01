@@ -4,6 +4,8 @@ from .models import Subject
 from teacher.models import Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseForbidden
+
 
 
 @login_required
@@ -13,6 +15,8 @@ def subject_list(request):
 
 @login_required
 def add_subject(request):
+    if request.user.is_student:
+        return HttpResponseForbidden("Accès refusé.")
     if request.method == 'POST':
         name = request.POST.get('name')
         department_id = request.POST.get('department')
@@ -36,6 +40,8 @@ def add_subject(request):
 
 @login_required
 def edit_subject(request, subject_id):
+    if not request.user.is_admin or not request.user.is_teacher:
+        return HttpResponseForbidden("Accès refusé.")
     subject = get_object_or_404(Subject, id=subject_id)
     if request.method == 'POST':
         subject.name = request.POST.get('name')

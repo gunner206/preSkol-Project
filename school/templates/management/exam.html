@@ -15,7 +15,7 @@
                      </div>
                      <div class="col-auto text-right float-right ml-auto">
                         <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
-                        <a href="{% url 'add_marks' exam.id %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                        <a href="{% url 'add_exam' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                      </div>
                   </div>
                </div>
@@ -50,7 +50,11 @@
                                        <td>{{ exam.end_time|time:"H:i A" }}</td>
                                        <td>{{ exam.exam_date|date:"d M Y" }}</td>
                                        <td class="text-right">
-                                          <div class="actions">
+                                           <div class="actions">
+                                          {% if user.is_admin or user.is_teacher %}
+                                            <a href="{% url 'add_marks' exam.id %}" class="btn btn-sm bg-success-light">
+                                                <i class="fas fa-pen"></i> Saisir les notes
+                                            </a>
                                              <a href="#" class="btn btn-sm bg-success-light mr-2">
                                                  <i class="fas fa-pen"></i>
                                              </a>
@@ -60,6 +64,9 @@
                                                      <i class="fas fa-trash"></i>
                                                  </button>
                                              </form>
+                                             {% else %}
+                                             <a> No actions</a>
+                                             {% endif %}
                                          </div>
                                        </td>
                                     </tr>

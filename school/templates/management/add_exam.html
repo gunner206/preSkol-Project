@@ -1,0 +1,81 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Programmer un nouvel Examen</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Titre de l'examen (ex: Partiel Semestre 1)</label>
+                                        <input type="text" class="form-control" name="name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Classe / Section</label>
+                                        <input type="text" class="form-control" name="exam_class" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Matière concernée</label>
+                                        <select class="form-control" name="subject" required>
+                                            <option value="">-- Sélectionnez une de vos matières --</option>
+                                            {% for sub in my_subjects %}
+                                                <option value="{{ sub.name }}">{{ sub.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Date de l'examen</label>
+                                        <input type="date" class="form-control" name="exam_date" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Heure de début</label>
+                                        <input type="time" class="form-control" name="start_time" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Heure de fin</label>
+                                        <input type="time" class="form-control" name="end_time" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Programmer l'examen</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
+      <script src="{% static 'assets/js/script.js' %}"></script>
+   </body>
+</html>
+{% endblock %}

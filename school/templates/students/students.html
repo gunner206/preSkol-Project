@@ -57,6 +57,7 @@
                                              <a href="{% url 'view_student' student.student_id %}" class="btn btn-sm bg-success-light mr-2">
                                                 👁️    
                                              </a>
+                                             {% if user.is_admin or user.is_teacher %}
                                              <a href="{% url 'edit_student' student.student_id %}" class="btn btn-sm bg-success-light mr-2">
                                                  <i class="fas fa-pen"></i>
                                              </a>
@@ -66,6 +67,7 @@
                                                      <i class="fas fa-trash"></i>
                                                  </button>
                                              </form>
+                                             {% endif %}
                                          </div>
                                        </td>
                                     </tr>

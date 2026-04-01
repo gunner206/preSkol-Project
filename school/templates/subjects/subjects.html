@@ -51,6 +51,7 @@
                                         <td>{{ subject.description|default:"No description" }}</td>
                                         <td class="text-right">
                                             <div class="actions">
+                                                {% if user.is_admin or user.is_teacher %}
                                                 <a href="{% url 'edit_subject' subject.id %}" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
@@ -60,6 +61,9 @@
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
+                                                {% else %}
+                                                <a> No Actions </a>
+                                                {% endif %}
                                             </div>
                                         </td>
                                     </tr>

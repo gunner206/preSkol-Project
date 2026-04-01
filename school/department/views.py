@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Department
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseForbidden
 
 @login_required
 def department_list(request):
@@ -10,6 +11,8 @@ def department_list(request):
 
 @login_required
 def add_department(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé. Réservé aux enseignants.")
     if request.method == 'POST':
         name = request.POST.get('name')
         description = request.POST.get('description')
@@ -26,6 +29,8 @@ def add_department(request):
 @login_required
 def edit_department(request, department_id):
     department = get_object_or_404(Department, id=department_id)
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé. Réservé aux enseignants.")
     if request.method == 'POST':
         department.name = request.POST.get('name')
         department.description = request.POST.get('description')

@@ -13,6 +13,8 @@ def student_list(request):
     return render(request, 'students/students.html', {'student_list': students})
 
 def add_student(request):
+    if request.user.is_student:
+        return HttpResponseForbidden("Accès refusé.")
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -70,6 +72,8 @@ def add_student(request):
         return render(request, 'students/add-student.html')
     
 def edit_student(request, student_id):
+    if not request.user.is_teacher or not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé.")
     if not student_id:
         return render(request, "students/students.html")
     if request.method == 'POST':
@@ -142,6 +146,8 @@ def view_student(request, student_id):
         return redirect('student_list')
 
 def delete_student(request, student_id):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("Accès refusé.")
     try:
         student = Student.objects.filter(student_id = student_id).first()
         student.delete()

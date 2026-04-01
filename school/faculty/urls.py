@@ -10,4 +10,7 @@ urlpatterns = [
     path('exam/', views.exam, name='exam'),
     path('exam/<int:exam_id>/marks/', views.add_marks, name='add_marks'),
     path('time_table/', views.time_table, name='time_table'),
+    path('holiday/add/', views.add_holiday, name='add_holiday'),
+    path('timetable/add/', views.add_timetable, name='add_timetable'),
+    path('exam/add/', views.add_exam, name='add_exam'),
 ]
