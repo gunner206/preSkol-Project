@@ -75,7 +75,7 @@
                      </div>
                      <a class="dropdown-item" href="profile.html">My Profile</a>
                      <a class="dropdown-item" href="inbox.html">Inbox</a>
-                     <a class="dropdown-item" href="">Logout</a>
+                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   </div>
                </li>
             </ul>
@@ -92,16 +92,16 @@
                         <ul>
                            <li><a href="index.html" class="active">Admin Dashboard</a></li>
                            <li><a href="teachers/teacher-dashboard.html">Teacher Dashboard</a></li>
-                           <li><a href="students/student-dashboard.html">Student Dashboard</a></li>
+                           <li><a href="{% url 'dashboard' %}">Student Dashboard</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
                         <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
                         <ul>
                            <li><a href="{% url 'student_list' %}">Student List</a></li>
-                           <li><a href="student-detail.html">Student View</a></li>
+                           <li><a href="{% url 'student_list' %}">Student View</a></li>
                            <li><a href="{% url 'add_student' %}">Student Add</a></li>
-                           <li><a href="">Student Edit</a></li>
+                           <li><a href="{% url 'student_list' %}">Student Edit</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
@@ -167,9 +167,9 @@
                      <li class="submenu">
                         <a href="#"><i class="fas fa-shield-alt"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
                         <ul>
-                           <li><a href="">Login</a></li>
-                           <li><a href="">Register</a></li>
-                           <li><a href="">Forgot Password</a></li>
+                           <li><a href="{% url 'login' %}">Login</a></li>
+                           <li><a href="{% url 'signup' %}">Register</a></li>
+                           <li><a href="{% url 'forgot-password' %}">Forgot Password</a></li>
                            <li><a href="error-404.html">Error Page</a></li>
                         </ul>
                      </li>
