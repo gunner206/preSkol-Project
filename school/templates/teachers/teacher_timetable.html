@@ -1,0 +1,89 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="stylesheet" href="{% static 'assets/plugins/fullcalendar/fullcalendar.min.css' %}">
+<style>
+    #calendar {
+        max-width: 100%;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .fc-event {
+        cursor: pointer;
+        color: white !important;
+        border: none;
+        padding: 2px 4px;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Mon Emploi du Temps</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'teacher_dashboard' %}">Tableau de bord</a></li>
+                        <li class="breadcrumb-item active">Emploi du Temps</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Copyright © 2026 preSkol.</p>
+    </footer>
+</div>
+
+<script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<script src="{% static 'assets/js/moment.min.js' %}"></script>
+<script src="{% static 'assets/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        var calendarEvents = {{ events_json|safe }};
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay' 
+            },
+            defaultView: 'agendaWeek', 
+            editable: false,           
+            events: calendarEvents,    
+            slotDuration: '00:30:00',  
+            minTime: '07:00:00',       
+            maxTime: '18:00:00',       
+            allDaySlot: false,         
+            
+            eventClick: function(calEvent, jsEvent, view) {
+                // Pour le prof, la description affichera la classe
+                alert('Matière : ' + calEvent.title + '\n' + calEvent.description);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

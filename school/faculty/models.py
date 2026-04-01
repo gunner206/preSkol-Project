@@ -62,3 +62,17 @@ class TimeTable(models.Model):
 
     def __str__(self):
         return f"{self.class_name} | {self.subject} | {self.teacher}"
+    
+
+class Result(models.Model):
+    student = models.ForeignKey('student.Student', on_delete=models.CASCADE, related_name='results')
+    exam = models.ForeignKey('faculty.Exam', on_delete=models.CASCADE, related_name='results')
+    marks = models.DecimalField(max_digits=5, decimal_places=2, help_text="Note obtenue")
+    comments = models.CharField(max_length=255, blank=True, null=True, help_text="Appréciation")
+
+    class Meta:
+        # Un étudiant ne peut avoir qu'une seule note pour un examen précis
+        unique_together = ('student', 'exam') 
+
+    def __str__(self):
+        return f"{self.student.first_name} {self.student.last_name} - {self.exam.name} : {self.marks}"
