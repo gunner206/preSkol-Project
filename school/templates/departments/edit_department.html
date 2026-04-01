@@ -1,5 +1,6 @@
 {% extends 'Home/base.html' %}
 {% load static %}
+
 {% block body %}
 <div class="page-wrapper">
     <div class="content container-fluid">
@@ -27,26 +28,13 @@
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Department Name</label>
-                                        <input type="text" class="form-control" name="name" value="{{ department.name }}" required>
+                                        <input type="text" name="name" class="form-control" value="{{ department.name }}" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                        <label>Head of Department</label>
-                                        <select class="form-control" name="head_of_department">
-                                            <option value="">Select Teacher</option>
-                                            {% for teacher in teachers %}
-                                            <option value="{{ teacher.id }}" {% if teacher.id == department.head_of_department.id %}selected{% endif %}>
-                                                {{ teacher.first_name }} {{ teacher.last_name }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" name="description" rows="4">{{ department.description }}</textarea>
+                                        <textarea name="description" class="form-control" rows="4">{{ department.description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12">

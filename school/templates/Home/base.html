@@ -108,9 +108,9 @@
                         <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
                         <ul>
                            <li><a href="{% url 'teacher_list' %}">Teacher List</a></li>
-                           <li><a href="teacher-detail.html">Teacher View</a></li>
+                           <li><a href="{% url 'teacher_list' %}">Teacher View</a></li>
                            <li><a href="{% url 'add_teacher' %}">Teacher Add</a></li>
-                           <li><a href="edit">Teacher Edit</a></li>
+                           <li><a href="{% url 'teacher_list' %}">Teacher Edit</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
@@ -118,15 +118,15 @@
                         <ul>
                            <li><a href="{% url 'department_list' %}">Department List</a></li>
                            <li><a href="{% url 'add_department' %}">Department Add</a></li>
-                           <li><a href="{% url 'edit_department' 1 %}">Department Edit</a></li>
+                           <li><a href="{% url 'department_list' %}">Department Edit</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
                         <a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span> <span class="menu-arrow"></span></a>
                         <ul>
-                           <li><a href="subjects.html">Subject List</a></li>
-                           <li><a href="add-subject.html">Subject Add</a></li>
-                           <li><a href="edit-subject.html">Subject Edit</a></li>
+                           <li><a href="{% url 'subject_list' %}">Subject List</a></li>
+                           <li><a href="{% url 'add_subject' %}">Subject Add</a></li>
+                           <li><a href="{% url 'subject_list' %}">Subject Edit</a></li>
                         </ul>
                      </li>
                      <li class="menu-title">

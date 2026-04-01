@@ -1,11 +1,11 @@
-from django.shortcuts import render , redirect
-from .models import Department
+from django.shortcuts import render, redirect, get_object_or_404
+from department.models import Department # Fixed broken import
 from .models import Subject
 from teacher.models import Teacher
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.contrib import messages
 
-# Create your views here.
+
 @login_required
 def subject_list(request):
     subjects = Subject.objects.all()
@@ -19,8 +19,8 @@ def add_subject(request):
         teacher_id = request.POST.get('teacher')
         description = request.POST.get('description')
 
-        department = Department.objects.get(id=department_id) if department_id else None
-        teacher = Teacher.objects.get(id=teacher_id) if teacher_id else None
+        department = Department.objects.filter(id=department_id).first() if department_id else None
+        teacher = Teacher.objects.filter(id=teacher_id).first() if teacher_id else None
 
         Subject.objects.create(
             name=name,
@@ -36,15 +36,15 @@ def add_subject(request):
 
 @login_required
 def edit_subject(request, subject_id):
-    subject = Subject.objects.get(id=subject_id)
+    subject = get_object_or_404(Subject, id=subject_id)
     if request.method == 'POST':
         subject.name = request.POST.get('name')
         department_id = request.POST.get('department')
         teacher_id = request.POST.get('teacher')
         subject.description = request.POST.get('description')
 
-        subject.department = Department.objects.get(id=department_id) if department_id else None
-        subject.teacher = Teacher.objects.get(id=teacher_id) if teacher_id else None
+        subject.department = Department.objects.filter(id=department_id).first() if department_id else None
+        subject.teacher = Teacher.objects.filter(id=teacher_id).first() if teacher_id else None
 
         subject.save()
         return redirect('subject_list')
@@ -52,3 +52,10 @@ def edit_subject(request, subject_id):
     departments = Department.objects.all()
     teachers = Teacher.objects.all()
     return render(request, 'subjects/edit_subject.html', {'subject': subject, 'departments': departments, 'teachers': teachers})
+
+@login_required
+def delete_subject(request, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id)
+    subject.delete()
+    messages.success(request, 'Subject deleted successfully.')
+    return redirect('subject_list')
