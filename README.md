@@ -143,6 +143,4 @@ Les contributions sont les bienvenues !
 
 ---
 
-## 📬 Contact
 
-Pour toute question ou suggestion, n’hésitez pas à ouvrir une issue sur GitHub.
