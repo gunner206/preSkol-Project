@@ -88,3 +88,4 @@ def teacher_delete(request, teacher_id):
         
     messages.success(request, 'Teacher deleted successfully.')
     return redirect('teacher_list')
+
