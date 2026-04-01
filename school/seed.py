@@ -75,8 +75,8 @@ except TypeError:
 
 
 print("Creating Departments & Subjects...")
-d1 = Department.objects.create(name='Mathematics', description='Math Dept', head_of_department=t1)
-d2 = Department.objects.create(name='Science', description='Science Dept', head_of_department=t2)
+d1 = Department.objects.create(name='Mathematics', description='Math Dept')
+d2 = Department.objects.create(name='Science', description='Science Dept')
 
 sub1 = Subject.objects.create(name='Algebra', description='Advanced Algebra', department=d1, teacher=t1)
 sub2 = Subject.objects.create(name='Physics', description='Thermodynamics', department=d2, teacher=t2)
